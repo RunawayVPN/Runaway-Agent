@@ -2,7 +2,7 @@ module github.com/RunawayVPN/Runaway-Agent
 
 go 1.19
 
-require github.com/RunawayVPN/Runaway-Hub v0.0.0-20230123102348-fa9e4f2eb2f1
+require github.com/RunawayVPN/Runaway-Hub v0.0.0-20230124155039-2efcb7ee6ebb
 
 require (
 	github.com/acheong08/crystals-go v0.0.0-20221113173009-20f37d186766 // indirect

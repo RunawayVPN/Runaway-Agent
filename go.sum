@@ -1,5 +1,5 @@
-github.com/RunawayVPN/Runaway-Hub v0.0.0-20230123102348-fa9e4f2eb2f1 h1:m8waWL0j3OfRRSetq52onv13o16zYrCG16SZuciooyY=
-github.com/RunawayVPN/Runaway-Hub v0.0.0-20230123102348-fa9e4f2eb2f1/go.mod h1:CiHHBuVnZQjr9Sq2Cb6/RkGYOZxE+yRm8LEXn2tw0qc=
+github.com/RunawayVPN/Runaway-Hub v0.0.0-20230124155039-2efcb7ee6ebb h1:nYiJnJShFtKFmvSDXI2smOPvMema/TxeuxdVlgauuB4=
+github.com/RunawayVPN/Runaway-Hub v0.0.0-20230124155039-2efcb7ee6ebb/go.mod h1:CiHHBuVnZQjr9Sq2Cb6/RkGYOZxE+yRm8LEXn2tw0qc=
 github.com/acheong08/crystals-go v0.0.0-20221113173009-20f37d186766 h1:SivOaKka46JOVHKBVh1iUxCvuHQmVVdYM+7lwsZ7lNM=
 github.com/acheong08/crystals-go v0.0.0-20221113173009-20f37d186766/go.mod h1:bGOBCYp4Rbac3haOe4f2IM03aw6Z303KGMfcBoQdZrc=
 golang.org/x/crypto v0.2.0 h1:BRXPfhNivWL5Yq0BGQ39a2sW6t44aODpfxkWjYdzewE=
