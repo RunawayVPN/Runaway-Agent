@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	sec "github.com/RunawayVPN/Runaway-Hub/tools/security"
+	sec "github.com/RunawayVPN/security"
 )
 
 func main() {

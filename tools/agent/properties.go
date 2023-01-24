@@ -8,8 +8,8 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/RunawayVPN/Runaway-Hub/tools/security"
-	"github.com/RunawayVPN/Runaway-Hub/types"
+	"github.com/RunawayVPN/security"
+	"github.com/RunawayVPN/types"
 )
 
 type network_details struct {
