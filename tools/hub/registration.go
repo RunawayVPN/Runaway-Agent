@@ -3,6 +3,7 @@ package hub
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"os"
 
@@ -51,7 +52,7 @@ func Register() error {
 		return err
 	}
 	// Make request to endpoint
-	resp, err := http.Post(endpoint, "application/json", bytes.NewBuffer([]byte(registration_request)))
+	resp, err := http.Post(endpoint+"/agent/registration", "application/json", bytes.NewBuffer([]byte(registration_request)))
 	if err != nil {
 		return err
 	}
@@ -62,9 +63,13 @@ func Register() error {
 	if err != nil {
 		return err
 	}
+	if resp.StatusCode != 200 {
+		return fmt.Errorf("registration failed: %s", registration_response.Error)
+	}
 	// Verify JWT
 	_, err = security.VerifyToken(registration_response.JwtToken, registration_response.PublicKey)
 	if err != nil {
+		println(registration_response.JwtToken)
 		return err
 	}
 	// Save public key to environment variable
