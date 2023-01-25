@@ -4,7 +4,7 @@ go 1.19
 
 require (
 	github.com/RunawayVPN/security v0.0.0-20230124162644-74763fa090d4
-	github.com/RunawayVPN/types v0.0.0-20230124161646-c0dad02a7af2
+	github.com/RunawayVPN/types v0.0.0-20230125080857-a8439f00b3e8
 )
 
 require (
