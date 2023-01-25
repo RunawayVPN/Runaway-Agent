@@ -63,6 +63,7 @@ func Construct_agent() (types.Agent, error) {
 		ISP:       network_details.ISP,
 		PublicKey: pubkey,
 		Name:      hostname,
+		Identity:  "agent",
 	}, nil
 }
 
