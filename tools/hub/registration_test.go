@@ -3,8 +3,9 @@ package hub
 import "testing"
 
 func TestRegistration(t *testing.T) {
-	err := Register()
+	hub_info, err := Register()
 	if err != nil {
 		t.Error(err)
 	}
+	t.Log(hub_info)
 }

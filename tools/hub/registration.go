@@ -23,20 +23,20 @@ func init() {
 	}
 }
 
-func Register() error {
+func Register() (types.HubInfo, error) {
 	// Get Agent
 	agent, err := agent.Construct_agent()
 	if err != nil {
-		return err
+		return types.HubInfo{}, err
 	}
 	// Convert agent to JSON string
 	agent_json, err := json.Marshal(agent)
 	if err != nil {
-		return err
+		return types.HubInfo{}, err
 	}
 	agent_jwt, err := security.CreateToken(string(agent_json))
 	if err != nil {
-		return err
+		return types.HubInfo{}, err
 	}
 	// Get secret key from environment variable
 	secret_key := os.Getenv("SECRET_KEY")
@@ -49,38 +49,34 @@ func Register() error {
 		JwtToken:  agent_jwt,
 	})
 	if err != nil {
-		return err
+		return types.HubInfo{}, err
 	}
 	// Make request to endpoint
 	resp, err := http.Post(endpoint+"/agent/registration", "application/json", bytes.NewBuffer([]byte(registration_request)))
 	if err != nil {
-		return err
+		return types.HubInfo{}, err
 	}
 	defer resp.Body.Close()
 	// Map response to RegistrationResponse struct
 	var registration_response types.RegistrationResponse
 	err = json.NewDecoder(resp.Body).Decode(&registration_response)
 	if err != nil {
-		return err
+		return types.HubInfo{}, err
 	}
 	if resp.StatusCode != 200 {
-		return fmt.Errorf("registration failed: %s", registration_response.Error)
+		return types.HubInfo{}, fmt.Errorf("registration failed: %s", registration_response.Error)
 	}
 	// Verify JWT
 	_, err = security.VerifyToken(registration_response.JwtToken, registration_response.PublicKey)
 	if err != nil {
 		println(registration_response.JwtToken)
-		return err
+		return types.HubInfo{}, err
 	}
-	// Save public key to environment variable
-	err = os.Setenv("HUB_PUBLIC_KEY", registration_response.PublicKey)
-	if err != nil {
-		return err
-	}
-	err = os.Setenv("AGENT_JWT", registration_response.JwtToken)
-	if err != nil {
-		return err
+	// Save hub info
+	hub_info := types.HubInfo{
+		PublicKey: registration_response.PublicKey,
+		AgentJwt:  registration_response.JwtToken,
 	}
 	// Save
-	return nil
+	return hub_info, nil
 }
