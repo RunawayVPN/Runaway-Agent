@@ -60,6 +60,10 @@ github.com/DataDog/datadog-go v3.2.0+incompatible/go.mod h1:LButxg5PwREeZtORoXG3
 github.com/OneOfOne/xxhash v1.2.2/go.mod h1:HSdplMjZKSmBqAxg5vPj2TmRDmfkzw+cTzAElWljhcU=
 github.com/RunawayVPN/dsnet v0.0.0-20230130071551-63af3129e032 h1:R87M7A2IKsks2sMUj3MRoTONUJ7du/uHXCd5ExnkNXQ=
 github.com/RunawayVPN/dsnet v0.0.0-20230130071551-63af3129e032/go.mod h1:fvu3nkWxW1csKB416VSiiRI6oExlRpF5jL5BrFSVub0=
+github.com/RunawayVPN/dsnet v0.0.0-20230206065508-143b7b36b4fa h1:NTHPlA4H61gJV0h9jcIDcd6qQ812w3UUAQ4R1jehQFI=
+github.com/RunawayVPN/dsnet v0.0.0-20230206065508-143b7b36b4fa/go.mod h1:fvu3nkWxW1csKB416VSiiRI6oExlRpF5jL5BrFSVub0=
+github.com/RunawayVPN/dsnet v0.0.0-20230206070030-996dbd9f3e11 h1:K8MzOeogcyeAjI8GeIQkAHGoKvPNN+UjQDjsZOlmZ/s=
+github.com/RunawayVPN/dsnet v0.0.0-20230206070030-996dbd9f3e11/go.mod h1:fvu3nkWxW1csKB416VSiiRI6oExlRpF5jL5BrFSVub0=
 github.com/RunawayVPN/security v0.0.0-20230124162644-74763fa090d4 h1:jsQDub0f0ZItlUAfE7Xmr83gjjfAiU2ULPBuM2f4NQQ=
 github.com/RunawayVPN/security v0.0.0-20230124162644-74763fa090d4/go.mod h1:uAA4ZWZAcmkX5qQbC0FJpU8kNESBYZCDe5Z6OvVg00o=
 github.com/RunawayVPN/types v0.0.0-20230130055753-42ae1213ce5c h1:V4VYuHciqgAl6zKK+evabkHDcDdNRKxGUyI9xUYpaow=

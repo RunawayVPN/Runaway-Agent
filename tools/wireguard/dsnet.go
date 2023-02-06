@@ -5,27 +5,32 @@ import (
 	"fmt"
 	"net"
 	"os"
+	"time"
 
 	dsnet "github.com/RunawayVPN/dsnet/cmd/cli"
+	viper "github.com/spf13/viper"
 )
 
+// Init dsnet
 func init() {
+	// Viper defaults
+	viper.SetDefault("config_file", "/etc/dsnetconfig.json")
+	viper.SetDefault("fallback_wg_bing", "wireguard-go")
+	viper.SetDefault("listen_port", 51820)
+	viper.SetDefault("interface_name", "dsnet")
+	viper.SetDefault("peer_timeout", 3*time.Minute)
 	// Check if dsnet configuration exists
 	_, err := dsnet.MustLoadConfigFile()
 	if err != nil {
-		dsnet.Init()
-		// Necessary edits:
-		// "PostUp": "iptables -A FORWARD -i %i -j ACCEPT; iptables -A FORWARD -o %i -j ACCEPT; iptables -t nat -A POSTROUTING -o <main network interface> -j MASQUERADE",
-		// "PostDown": "iptables -D FORWARD -i %i -j ACCEPT; iptables -D FORWARD -o %i -j ACCEPT; iptables -t nat -D POSTROUTING -o <main network interface> -j MASQUERADE",
-		// 	"Networks": [
-		//     "0.0.0.0/0",
-		//     "::/0"
-		// ],
-
+		_, err := dsnet.Init()
+		if err != nil {
+			println("Possibly insufficient permissions")
+			panic(err)
+		}
 		// Read /etc/dsnetconfig.json
 		config, err := os.ReadFile("/etc/dsnetconfig.json")
 		if err != nil {
-			panic(err)
+			panic("Failed to read file")
 		}
 		// Parse JSON
 		var data map[string]interface{}
@@ -43,12 +48,17 @@ func init() {
 		data["PostDown"] = fmt.Sprintf("iptables -D FORWARD -i %%i -j ACCEPT; iptables -D FORWARD -o %%i -j ACCEPT; iptables -t nat -D POSTROUTING -o %s -j MASQUERADE", main_interface)
 		// Edit Networks
 		data["Networks"] = []string{"0.0.0.0/0", "::/0"}
+		// Set DNS to 9.9.9.9 and 149.112.112.112
+		data["DNS"] = []string{"9.9.9.9", "149.112.112.112"}
 		// Write to /etc/dsnetconfig.json
 		config, err = json.MarshalIndent(data, "", "  ")
 		if err != nil {
 			panic(err)
 		}
 		os.WriteFile("/etc/dsnetconfig.json", config, 0644)
+		println("dsnet configuration file created")
+	} else {
+		println("File exists")
 	}
 }
 
