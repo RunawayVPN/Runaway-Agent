@@ -5,7 +5,7 @@ go 1.19
 require (
 	github.com/RunawayVPN/dsnet v0.0.0-20230206070030-996dbd9f3e11
 	github.com/RunawayVPN/security v0.0.0-20230124162644-74763fa090d4
-	github.com/RunawayVPN/types v0.0.0-20230130055753-42ae1213ce5c
+	github.com/RunawayVPN/types v0.0.0-20230207061748-abcd7daded9d
 	github.com/gin-gonic/gin v1.8.2
 	github.com/spf13/viper v1.13.0
 )

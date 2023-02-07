@@ -1,17 +1,18 @@
 package handlers
 
 import (
+	"github.com/RunawayVPN/Runaway-Agent/tools/hub"
 	"github.com/RunawayVPN/security"
-	"github.com/RunawayVPN/types"
 	"github.com/gin-gonic/gin"
 )
 
 func AddConfig(c *gin.Context) {
-	// TODO
+	// Get payload from context
+
 }
 
 // Middleware for JWT authentication
-func JWTAuth(hub_info types.HubInfo) gin.HandlerFunc {
+func JWTAuth(hub_info hub.HubInfo) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// Get JWT from header
 		token := c.Request.Header.Get("Authorization")

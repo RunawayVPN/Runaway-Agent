@@ -64,6 +64,10 @@ github.com/RunawayVPN/security v0.0.0-20230124162644-74763fa090d4 h1:jsQDub0f0ZI
 github.com/RunawayVPN/security v0.0.0-20230124162644-74763fa090d4/go.mod h1:uAA4ZWZAcmkX5qQbC0FJpU8kNESBYZCDe5Z6OvVg00o=
 github.com/RunawayVPN/types v0.0.0-20230130055753-42ae1213ce5c h1:V4VYuHciqgAl6zKK+evabkHDcDdNRKxGUyI9xUYpaow=
 github.com/RunawayVPN/types v0.0.0-20230130055753-42ae1213ce5c/go.mod h1:x4S5krckefOJzF5H6DrtMi9yBjcp6+EDcZb+J9jXoCE=
+github.com/RunawayVPN/types v0.0.0-20230207061445-5d4bdf6851d6 h1:F9/G/HxyIQRncVRU5J8qz/dw0w0ONtVFfcBEwQ1MILM=
+github.com/RunawayVPN/types v0.0.0-20230207061445-5d4bdf6851d6/go.mod h1:x4S5krckefOJzF5H6DrtMi9yBjcp6+EDcZb+J9jXoCE=
+github.com/RunawayVPN/types v0.0.0-20230207061748-abcd7daded9d h1:XhSKSieAXBsiKyxbTYtIXGhLpagTdVkkl1bZeLKy/CM=
+github.com/RunawayVPN/types v0.0.0-20230207061748-abcd7daded9d/go.mod h1:x4S5krckefOJzF5H6DrtMi9yBjcp6+EDcZb+J9jXoCE=
 github.com/acheong08/crystals-go v0.0.0-20221113173009-20f37d186766 h1:SivOaKka46JOVHKBVh1iUxCvuHQmVVdYM+7lwsZ7lNM=
 github.com/acheong08/crystals-go v0.0.0-20221113173009-20f37d186766/go.mod h1:bGOBCYp4Rbac3haOe4f2IM03aw6Z303KGMfcBoQdZrc=
 github.com/alecthomas/template v0.0.0-20160405071501-a0175ee3bccc/go.mod h1:LOuyumcjzFXgccqObfd/Ljyb9UuFJ6TxHnclSeseNhc=

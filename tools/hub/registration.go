@@ -12,71 +12,82 @@ import (
 	"github.com/RunawayVPN/types"
 )
 
+// Private types
+type HubInfo struct {
+	PublicKey string
+	AuthToken string
+}
+
 // Global variables
+var path string
 var endpoint string
 
 func init() {
 	// Get endpoint environment variable
+	protocol := os.Getenv("PROTOCOL")
 	endpoint = os.Getenv("ENDPOINT")
+	port := os.Getenv("PORT")
 	if endpoint == "" {
-		endpoint = "http://localhost:8080"
+		endpoint = "localhost"
 	}
+	path = protocol + endpoint + port
 }
 
-func Register() (types.HubInfo, error) {
+func Register() (HubInfo, error) {
 	// Get Agent
 	agent, err := agent.Construct_agent()
 	if err != nil {
-		return types.HubInfo{}, err
-	}
-	// Convert agent to JSON string
-	agent_json, err := json.Marshal(agent)
-	if err != nil {
-		return types.HubInfo{}, err
-	}
-	agent_jwt, err := security.CreateToken(string(agent_json))
-	if err != nil {
-		return types.HubInfo{}, err
+		return HubInfo{}, err
 	}
 	// Get secret key from environment variable
 	secret_key := os.Getenv("SECRET_KEY")
 	if secret_key == "" {
 		secret_key = "secret"
 	}
-	registration_request, err := json.Marshal(types.RegistrationRequest{
-		PublicKey: agent.PublicKey,
-		SecretKey: secret_key,
-		JwtToken:  agent_jwt,
+	// Generate AuthToken based on endpoint
+	auth_token_json, err := json.Marshal(types.AuthToken{
+		Endpoint: endpoint,
+		Roles:    []string{"hub"},
 	})
 	if err != nil {
-		return types.HubInfo{}, err
+		return HubInfo{}, err
+	}
+	auth_token, err := security.CreateToken(string(auth_token_json))
+	if err != nil {
+		return HubInfo{}, err
+	}
+	request, err := json.Marshal(types.RegistrationRequest{
+		PublicKey: agent.PublicKey,
+		SecretKey: secret_key,
+		Agent:     agent,
+		AuthToken: auth_token,
+	})
+	if err != nil {
+		return HubInfo{}, err
 	}
 	// Make request to endpoint
-	resp, err := http.Post(endpoint+"/agent/registration", "application/json", bytes.NewBuffer([]byte(registration_request)))
+	resp, err := http.Post(path+"/agent/registration", "application/json", bytes.NewBuffer([]byte(request)))
 	if err != nil {
-		return types.HubInfo{}, err
+		return HubInfo{}, err
 	}
 	defer resp.Body.Close()
 	// Map response to RegistrationResponse struct
-	var registration_response types.RegistrationResponse
-	err = json.NewDecoder(resp.Body).Decode(&registration_response)
+	var response types.RegistrationResponse
+	err = json.NewDecoder(resp.Body).Decode(&response)
 	if err != nil {
-		return types.HubInfo{}, err
+		return HubInfo{}, err
 	}
 	if resp.StatusCode != 200 {
-		return types.HubInfo{}, fmt.Errorf("registration failed: %s", registration_response.Error)
+		return HubInfo{}, fmt.Errorf("registration failed: %s", response.Error)
 	}
 	// Verify JWT
-	_, err = security.VerifyToken(registration_response.JwtToken, registration_response.PublicKey)
+	_, err = security.VerifyToken(response.AuthToken, response.PublicKey)
 	if err != nil {
-		println(registration_response.JwtToken)
-		return types.HubInfo{}, err
+		return HubInfo{}, err
 	}
-	// Save hub info
-	hub_info := types.HubInfo{
-		PublicKey: registration_response.PublicKey,
-		AgentJwt:  registration_response.JwtToken,
-	}
-	// Save
-	return hub_info, nil
+	// Return HubInfo
+	return HubInfo{
+		PublicKey: response.PublicKey,
+		AuthToken: response.AuthToken,
+	}, nil
 }
