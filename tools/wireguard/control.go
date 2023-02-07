@@ -40,3 +40,15 @@ func Down() error {
 	}
 	return nil
 }
+
+func Add(hostname, owner, description string) (string, error) {
+	return dsnet.Add(hostname, owner, description, true)
+}
+
+func Regenerate(hostname string) (string, error) {
+	return dsnet.Regenerate(hostname, true)
+}
+
+func Remove(hostname string) error {
+	return dsnet.Remove(hostname)
+}

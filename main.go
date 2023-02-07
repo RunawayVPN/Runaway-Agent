@@ -4,8 +4,11 @@ import (
 	"encoding/json"
 	"os"
 
+	"github.com/RunawayVPN/Runaway-Agent/internal/handlers"
 	"github.com/RunawayVPN/Runaway-Agent/tools/hub"
 	"github.com/RunawayVPN/types"
+
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
@@ -14,8 +17,13 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	// TODO
-	println(hub_info)
+	// Open up a port to handle requests from the hub
+	agent_server := gin.Default()
+	// Middleware for JWT authentication
+	agent_server.Use(handlers.JWTAuth(hub_info))
+	// Add routes
+	agent_server.POST("/add_config", handlers.AddConfig)
+
 }
 
 // The Hub information contains the public key and JWT authorization for the agent

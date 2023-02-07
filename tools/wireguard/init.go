@@ -27,39 +27,37 @@ func init() {
 			println("Possibly insufficient permissions")
 			panic(err)
 		}
-		// Read /etc/dsnetconfig.json
-		config, err := os.ReadFile("/etc/dsnetconfig.json")
-		if err != nil {
-			panic("Failed to read file")
-		}
-		// Parse JSON
-		var data map[string]interface{}
-		err = json.Unmarshal(config, &data)
-		if err != nil {
-			panic(err)
-		}
-		// Get main network interface
-		main_interface, err := get_main_network_interface()
-		if err != nil {
-			panic(err)
-		}
-		// Edit PostUp and PostDown
-		data["PostUp"] = fmt.Sprintf("iptables -A FORWARD -i %%i -j ACCEPT; iptables -A FORWARD -o %%i -j ACCEPT; iptables -t nat -A POSTROUTING -o %s -j MASQUERADE", main_interface)
-		data["PostDown"] = fmt.Sprintf("iptables -D FORWARD -i %%i -j ACCEPT; iptables -D FORWARD -o %%i -j ACCEPT; iptables -t nat -D POSTROUTING -o %s -j MASQUERADE", main_interface)
-		// Edit Networks
-		data["Networks"] = []string{"0.0.0.0/0", "::/0"}
-		// Set DNS to 9.9.9.9 and 149.112.112.112
-		data["DNS"] = []string{"9.9.9.9", "149.112.112.112"}
-		// Write to /etc/dsnetconfig.json
-		config, err = json.MarshalIndent(data, "", "  ")
-		if err != nil {
-			panic(err)
-		}
-		os.WriteFile("/etc/dsnetconfig.json", config, 0644)
-		println("dsnet configuration file created")
-	} else {
-		println("File exists")
 	}
+	// Read /etc/dsnetconfig.json
+	config, err := os.ReadFile("/etc/dsnetconfig.json")
+	if err != nil {
+		panic("Failed to read file")
+	}
+	// Parse JSON
+	var data map[string]interface{}
+	err = json.Unmarshal(config, &data)
+	if err != nil {
+		panic(err)
+	}
+	// Get main network interface
+	main_interface, err := get_main_network_interface()
+	if err != nil {
+		panic(err)
+	}
+	// Edit PostUp and PostDown
+	data["PostUp"] = fmt.Sprintf("iptables -A FORWARD -i %%i -j ACCEPT; iptables -A FORWARD -o %%i -j ACCEPT; iptables -t nat -A POSTROUTING -o %s -j MASQUERADE", main_interface)
+	data["PostDown"] = fmt.Sprintf("iptables -D FORWARD -i %%i -j ACCEPT; iptables -D FORWARD -o %%i -j ACCEPT; iptables -t nat -D POSTROUTING -o %s -j MASQUERADE", main_interface)
+	// Edit Networks
+	data["Networks"] = []string{"0.0.0.0/0", "::/0"}
+	// Set DNS to 9.9.9.9 and 149.112.112.112
+	data["DNS"] = []string{"9.9.9.9", "149.112.112.112"}
+	// Write to /etc/dsnetconfig.json
+	config, err = json.MarshalIndent(data, "", "  ")
+	if err != nil {
+		panic(err)
+	}
+	os.WriteFile("/etc/dsnetconfig.json", config, 0644)
+	println("dsnet configuration file created")
 }
 
 // Get the main network interface
